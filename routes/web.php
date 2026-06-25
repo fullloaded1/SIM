@@ -21,3 +21,12 @@ Route::get('/', function (Request $request) {
 
     return view('welcome', compact('books', 'search'));
 });
+use Illuminate\Support\Facades\Artisan;
+Route::get('/setup-db', function() {
+    try {
+        Artisan::call('migrate:fresh', ['--force' => true, '--seed' => true]);
+        return 'Database successfully migrated and seeded!';
+    } catch (\Exception $e) {
+        return $e->getMessage();
+    }
+});
